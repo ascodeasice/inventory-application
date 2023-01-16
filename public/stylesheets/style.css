@@ -6,3 +6,7 @@ body {
 a {
   color: #00B7FF;
 }
+
+.mainLogo {
+  width: max(300px, 30vw);
+}

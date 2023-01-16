@@ -2,7 +2,9 @@ const Book = require("../models/book");
 
 // Display list of all books.
 exports.index = (req, res) => {
-    res.send("NOT IMPLEMENTED: index");
+    res.render("index", {
+        title: "Amason"
+    })
 }
 
 exports.book_list = (req, res) => {
