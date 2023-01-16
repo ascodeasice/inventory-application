@@ -9,13 +9,15 @@ const BookSchema = new Schema({
     price: { type: Number, required: true },
     numberInStock: { type: Number, required: true },
     pages: { type: Number, required: true },
-    publisher: { type: Schema.Types.ObjectId, ref: "Publisher" },
+    publisher: { type: Schema.Types.ObjectId, ref: "Publisher", required: true },
     isbn: { type: String, required: true },
-    coverSize: { type: [Number], required: true },
+    coverSize: { type: [Number] },
+    author: { type: Schema.Types.ObjectId, ref: "Author", required: true },
+    publicationDate: { type: Date },
 });
 
 BookSchema.virtual("url").get(function () {
     return `/book/${this._id}`;
 });
 
-module.exports = mongoose.model("Category", BookSchema);
+module.exports = mongoose.model("Book", BookSchema);
