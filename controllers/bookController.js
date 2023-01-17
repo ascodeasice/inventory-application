@@ -7,8 +7,20 @@ exports.index = (req, res) => {
     })
 }
 
-exports.book_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: book list");
+exports.book_list = (req, res, next) => {
+    Book.find({})
+        .sort({ title: 1 })
+        .exec(
+            (err, books) => {
+                if (err) {
+                    return next(err);
+                }
+                res.render("book_list", {
+                    title: "All books",
+                    books: books,
+                });
+            }
+        )
 };
 
 // Display detail page for a specific book.

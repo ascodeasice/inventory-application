@@ -1,0 +1,9 @@
+extends layout 
+
+block content 
+    img.mainLogo(src="../images/amasonLogo.png")
+    h1 #{title}
+    ul
+        each book in books
+            a(href=book.url) 
+                li.bookListItem=book.title

@@ -1,5 +1,7 @@
 :root {
   --orange: #ff9900;
+  --lightBlue: #5F9DF7;
+  --blue: #1746A2;
 }
 
 body {
@@ -8,7 +10,10 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: var(--lightBlue);
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 15px;
 }
 
 .mainLogo {
@@ -25,4 +30,8 @@ a {
 
 .orangeButton:hover {
   opacity: 0.5;
+}
+
+.bookListItem {
+  margin-top: 10px;
 }
