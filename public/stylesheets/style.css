@@ -1,3 +1,7 @@
+:root {
+  --orange: #ff9900;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -9,4 +13,16 @@ a {
 
 .mainLogo {
   width: max(300px, 30vw);
+}
+
+.orangeButton {
+  background-color: var(--orange);
+  color: white;
+  border: none;
+  width: 70px;
+  height: 30px;
+}
+
+.orangeButton:hover {
+  opacity: 0.5;
 }
