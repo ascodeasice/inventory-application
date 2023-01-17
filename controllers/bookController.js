@@ -17,6 +17,7 @@ exports.book_list = (req, res, next) => {
                 }
                 res.render("book_list", {
                     title: "All books",
+                    logoURL: "../images/amasonLogo.png",
                     books: books,
                 });
             }
@@ -24,8 +25,28 @@ exports.book_list = (req, res, next) => {
 };
 
 // Display detail page for a specific book.
-exports.book_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: book detail: ${req.params.id}`);
+exports.book_detail = (req, res, next) => {
+    Book.findById(req.params.id)
+        .populate("author")
+        .populate("publisher")
+        .populate("category")
+        .exec((err, book) => {
+            if (err) {
+                return next(err);
+            }
+            if (book == null) {
+                // book not found
+                const error = new Error("Book not found");
+                error.status = 404;
+                next(error);
+            }
+            // success
+            res.render("book_detail", {
+                title: book.title,
+                logoURL: "../../images/amasonLogo.png",
+                book: book,
+            });
+        });
 };
 
 // Display book create form on GET.

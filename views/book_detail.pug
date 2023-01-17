@@ -1,0 +1,36 @@
+extends layout 
+
+block content
+    div.bookDetailPage
+        div.bookInfo
+            h1 #{title}
+            p by 
+                a.authorName(href=book.author.url) #{book.author.name}
+            p.description #{book.description}
+            hr
+            div.bookInfoRow
+                .infoBlock 
+                    p Print length 
+                    p #{book.pages} Pages 
+                .infoBlock 
+                    p Publisher
+                    p #{book.publisher.name}          
+                .infoBlock 
+                    p Publication Date
+                    p #{book.publication_date_formatted}
+                .infoBlock 
+                    p Dimensions 
+                    p #{book.dimensions_formatted}
+                .infoBlock 
+                    p ISBN-10
+                    p #{book.isbn}
+        div.buyBook 
+            p.bold Price: 
+                span.price $#{book.price}
+            p.bold Category: #{book.category.name}
+            p.bold Number in Stock: #{book.numberInStock}
+            .buttonContainer
+                a(href=book.url + "/update")
+                    button.orangeButton Update 
+                a(href=book.url + "/delete")
+                    button.redButton Delete

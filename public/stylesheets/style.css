@@ -2,6 +2,9 @@
   --orange: #ff9900;
   --lightBlue: #5F9DF7;
   --blue: #1746A2;
+  --darkerOrange: #e89b00;
+  --red: #FF0032;
+  --darkerRed: #CD0404;
 }
 
 body {
@@ -24,14 +27,74 @@ a {
   background-color: var(--orange);
   color: white;
   border: none;
+  border-radius: 5px;
   width: 70px;
   height: 30px;
 }
 
 .orangeButton:hover {
-  opacity: 0.5;
+  background-color: #e89b00;
 }
 
 .bookListItem {
   margin-top: 10px;
+}
+
+.bookDetailPage {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 30px;
+}
+
+.bookDetailPage .buyBook {
+  border: 3px solid var(--blue);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.bookDetailPage .bookInfoRow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.infoBlock {
+  display: grid;
+  justify-items: center;
+}
+
+.infoBlock>p {
+  font-size: 12px;
+}
+
+.bookDetailPage .bookInfoRow .infoBlock>p+p {
+  font-weight: bold;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+span.price {
+  color: #ff9900;
+  font-size: 15px;
+  justify-self: end;
+}
+
+.redButton {
+  background-color: var(--red);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 70px;
+  height: 30px;
+}
+
+.redButton:hover {
+  background-color: var(--darkerRed);
+}
+
+.buyBook .buttonContainer {
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  column-gap: 10px;
 }
