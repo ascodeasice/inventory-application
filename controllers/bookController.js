@@ -3,7 +3,8 @@ const Book = require("../models/book");
 // Display list of all books.
 exports.index = (req, res) => {
     res.render("index", {
-        title: "Amason"
+        title: "Amason",
+        logoURL: "./images/amasonLogo.png",
     })
 }
 
