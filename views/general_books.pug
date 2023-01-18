@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+    h1 #{title}
+    if(books.length>0)
+        ul 
+            each book in books 
+                a(href=book.url)
+                    li  #{book.title} 
+    else 
+        p This #{itemName} has no books
+        a(href="/catalog/book/create")
+            button.orangeButton Create book

@@ -1,4 +1,7 @@
 const Author = require("../models/author");
+const Book = require("../models/book")
+const async = require("async");
+const author = require("../models/author");
 
 // Display list of all authors.
 exports.author_list = (req, res, next) => {
@@ -19,8 +22,35 @@ exports.author_list = (req, res, next) => {
 };
 
 // Display detail page for a specific author.
-exports.author_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: author detail: ${req.params.id}`);
+exports.author_detail = (req, res, next) => {
+    async.parallel(
+        {
+            books(callback) {
+                Book.find({ author: req.params.id })
+                    .sort({ title: 1 })
+                    .exec(callback)
+            },
+            author(callback) {
+                author.findById(req.params.id)
+                    .exec(callback)
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (author == null) {
+                const error = new Error("Author not found");
+                error.status = 404;
+                return next(error);
+            }
+            res.render("general_books", {
+                title: results.author.name,
+                logoURL: "../../images/amasonLogo.png",
+                itemName: "author",
+                books: results.books,
+            });
+        });
 };
 
 // Display author create form on GET.

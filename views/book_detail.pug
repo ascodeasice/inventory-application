@@ -7,6 +7,8 @@ block content
             p by 
                 a.authorName(href=book.author.url) #{book.author.name}
             p.description #{book.description}
+            p Category: 
+                a.bold(href=book.category.url) #{book.category.name}
             hr
             div.bookInfoRow
                 .infoBlock 
@@ -27,7 +29,6 @@ block content
         div.buyBook 
             p.bold Price: 
                 span.price $#{book.price}
-            p.bold Category: #{book.category.name}
             p.bold Number in Stock: #{book.numberInStock}
             .buttonContainer
                 a(href=book.url + "/update")
