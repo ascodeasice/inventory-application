@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+    h1 #{title}
+    if(items.length>0)
+        ul
+            each item in items
+                a(href=item.url) 
+                    li.generalListItem=item.name
+    else 
+        p.noItem There's no #{itemName}
+        a(href=`/catalog/${itemName}/create`)
+            button.orangeButton Create #{itemName}

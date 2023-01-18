@@ -2,7 +2,12 @@ extends layout
 
 block content 
     h1 #{title}
-    ul
-        each book in books
-            a(href=book.url) 
-                li.bookListItem=book.title
+    if(books.length>0)
+        ul
+            each book in books
+                a(href=book.url) 
+                    li.bookListItem=book.title
+    else 
+        p.noItem There's no book
+        a(href=`/catalog/book/create`)
+            button.orangeButton Create book
