@@ -1,4 +1,8 @@
 const Book = require("../models/book");
+const Publisher = require("../models/publisher");
+const Category = require("../models/category");
+const Author = require("../models/author");
+const async = require("async");
 
 // Display list of all books.
 exports.index = (req, res) => {
@@ -51,8 +55,38 @@ exports.book_detail = (req, res, next) => {
 };
 
 // Display book create form on GET.
-exports.book_create_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: book create GET");
+exports.book_create_get = (req, res, next) => {
+    async.parallel({
+        categories(callback) {
+            Category.find({})
+                .sort({ name: 1 })
+                .exec(callback)
+        },
+        authors(callback) {
+            Author.find({})
+                .sort({ name: 1 })
+                .exec(callback)
+        },
+        publishers(callback) {
+            Publisher.find({})
+                .sort({ name: 1 })
+                .exec(callback)
+        },
+    },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+
+            res.render("book_form", {
+                title: "Create book",
+                logoURL: "../../images/amasonLogo.png",
+                categories: results.categories,
+                publishers: results.publishers,
+                authors: results.authors,
+            });
+        }
+    )
 };
 
 // Handle book create on POST.

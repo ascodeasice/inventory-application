@@ -48,4 +48,11 @@ BookSchema.virtual("dimensions_formatted").get(function () {
     return result;
 });
 
+BookSchema.virtual("publication_date_input_value").get(function () {
+    if (!this.publicationDate) {
+        return "";
+    }
+    return DateTime.fromJSDate(this.publicationDate).toFormat("yyyy-MM-dd");
+});
+
 module.exports = mongoose.model("Book", BookSchema);

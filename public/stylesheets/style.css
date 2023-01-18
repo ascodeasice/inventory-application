@@ -8,6 +8,7 @@
   --darkerRed: #CD0404;
   --buttonWidth: 100px;
   --buttonHeight: 40px;
+  --inputWidth: 300px;
 }
 
 body {
@@ -128,17 +129,36 @@ ul {
 
 .formGroup {
   margin-bottom: 10px;
+  display: grid;
+  grid-template-rows: repeat(auto-fill, min-content);
+  grid-template-columns: repeat(2, min-content);
+  row-gap: 10px;
 }
 
 .formGroup>label {
   font-size: 20px;
   margin-right: 10px;
+  white-space: nowrap;
+  padding-top: 5px;
 }
 
 .formGroup>input {
-  width: 200px;
+  width: var(--inputWidth);
   height: 30px;
   font-size: 15px;
   padding-left: 5px;
   border-radius: 5px;
+}
+
+.formGroup>textarea {
+  width: var(--inputWidth);
+  height: 200px;
+  font-size: 15px;
+  resize: none;
+  vertical-align: top;
+}
+
+.formGroup>select {
+  width: var(--inputWidth);
+  font-size: 15px;
 }
