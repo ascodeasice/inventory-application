@@ -50,6 +50,7 @@ exports.author_detail = (req, res, next) => {
                 logoURL: "../../images/amasonLogo.png",
                 itemName: "author",
                 books: results.books,
+                item: results.author,
             });
         });
 };
@@ -119,11 +120,54 @@ exports.author_delete_post = (req, res) => {
 };
 
 // Display author update form on GET.
-exports.author_update_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: author update GET");
+exports.author_update_get = (req, res, next) => {
+    Author.findById(req.params.id).exec((err, author) => {
+        if (err) {
+            return next(err);
+        }
+        if (author == null) {
+            const error = new Error("Author not found");
+            error.status = 404;
+            return next(error);
+        }
+
+        // success
+        res.render("general_form", {
+            title: "Update author",
+            logoURL: "../../../images/amasonLogo.png",
+            item: author,
+        });
+    });
 };
 
 // Handle author update on POST.
-exports.author_update_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: author update POST");
-};
+exports.author_update_post = [
+    body("name", "Author name is required").trim().isLength({ min: 1 }),
+    (req, res, next) => {
+        const errors = validationResult(req);
+
+        const newAuthor = new Author({
+            name: req.body.name,
+            _id: req.params.id,
+        });
+
+        if (!errors.isEmpty()) {
+            res.render("general_form", {
+                title: "Update author",
+                logoURL: "../../../images/amasonLogo.png",
+                item: newAuthor,
+                errors: errors.array(),
+            });
+            return;
+        }
+        else {
+            Author.findByIdAndUpdate(req.params.id, newAuthor, {}, (err, oldAuthor) => {
+                if (err) {
+                    return next(err);
+                }
+
+                res.redirect(oldAuthor.url);
+            });
+        }
+    }
+]

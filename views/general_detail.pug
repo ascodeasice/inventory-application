@@ -11,3 +11,7 @@ block content
         p This #{itemName} has no books
         a(href="/catalog/book/create")
             button.orangeButton Create book
+    
+    hr
+    a(href=item.url+"/update")
+        button.orangeButton Update #{itemName}

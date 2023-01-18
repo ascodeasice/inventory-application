@@ -2,6 +2,7 @@ const Publisher = require("../models/publisher");
 const Book = require("../models/book");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
+const publisher = require("../models/publisher");
 
 // Display list of all publishers.
 exports.publisher_list = (req, res, next) => {
@@ -49,6 +50,7 @@ exports.publisher_detail = (req, res, next) => {
                 logoURL: "../../images/amasonLogo.png",
                 itemName: "publisher",
                 books: results.books,
+                item: results.publisher,
             });
         });
 }
@@ -118,10 +120,53 @@ exports.publisher_delete_post = (req, res) => {
 
 // Display publisher update form on GET.
 exports.publisher_update_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: publisher update GET");
+    Publisher.findById(req.params.id).exec((err, publisher) => {
+        if (err) {
+            return next(err);
+        }
+        if (publisher == null) {
+            const error = new Error("Author not found");
+            error.status = 404;
+            return next(error);
+        }
+
+        // success
+        res.render("general_form", {
+            title: "Update publisher",
+            logoURL: "../../../images/amasonLogo.png",
+            item: publisher,
+        });
+    });
 };
 
 // Handle publisher update on POST.
-exports.publisher_update_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: publisher update POST");
-};
+exports.publisher_update_post = [
+    body("name", "Publisher name is required").trim().isLength({ min: 1 }),
+    (req, res, next) => {
+        const errors = validationResult(req);
+
+        const newPublisher = new Publisher({
+            name: req.body.name,
+            _id: req.params.id,
+        });
+
+        if (!errors.isEmpty()) {
+            res.render("general_form", {
+                title: "Update publisher",
+                logoURL: "../../../images/amasonLogo.png",
+                item: newPublisher,
+                errors: errors.array(),
+            });
+            return;
+        }
+        else {
+            Publisher.findByIdAndUpdate(req.params.id, newPublisher, {}, (err, oldPublisher) => {
+                if (err) {
+                    return next(err);
+                }
+
+                res.redirect(oldPublisher.url);
+            });
+        }
+    }
+]

@@ -6,6 +6,8 @@
   --darkerOrange: #e89b00;
   --red: #FF0032;
   --darkerRed: #CD0404;
+  --buttonWidth: 100px;
+  --buttonHeight: 40px;
 }
 
 body {
@@ -35,8 +37,8 @@ a>li {
   color: white;
   border: none;
   border-radius: 5px;
-  width: 100px;
-  height: 40px;
+  width: var(--buttonWidth);
+  height: var(--buttonHeight);
 }
 
 .orangeButton:hover {
@@ -93,8 +95,8 @@ span.price {
   color: white;
   border: none;
   border-radius: 5px;
-  width: 70px;
-  height: 30px;
+  width: var(--buttonWidth);
+  height: var(--buttonHeight);
 }
 
 .redButton:hover {
