@@ -1,4 +1,6 @@
 const Category = require("../models/category");
+const Book = require("../models/book");
+const async = require("async");
 
 // Display list of all categories.
 exports.category_list = (req, res, next) => {
@@ -19,9 +21,36 @@ exports.category_list = (req, res, next) => {
 };
 
 // Display detail page for a specific category.
-exports.category_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: category detail: ${req.params.id}`);
-};
+exports.category_detail = (req, res, next) => {
+    async.parallel(
+        {
+            books(callback) {
+                Book.find({ category: req.params.id })
+                    .sort({ title: 1 })
+                    .exec(callback)
+            },
+            category(callback) {
+                Category.findById(req.params.id)
+                    .exec(callback)
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.category == null) {
+                const error = new Error("Author not found");
+                error.status = 404;
+                return next(error);
+            }
+            res.render("general_detail", {
+                title: results.category.name,
+                logoURL: "../../images/amasonLogo.png",
+                itemName: "category",
+                books: results.books,
+            });
+        });
+}
 
 // Display category create form on GET.
 exports.category_create_get = (req, res) => {

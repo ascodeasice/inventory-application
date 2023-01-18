@@ -1,4 +1,6 @@
 const Publisher = require("../models/publisher");
+const Book = require("../models/book");
+const async = require("async");
 
 // Display list of all publishers.
 exports.publisher_list = (req, res, next) => {
@@ -19,9 +21,36 @@ exports.publisher_list = (req, res, next) => {
 };
 
 // Display detail page for a specific publisher.
-exports.publisher_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: publisher detail: ${req.params.id}`);
-};
+exports.publisher_detail = (req, res, next) => {
+    async.parallel(
+        {
+            books(callback) {
+                Book.find({ publisher: req.params.id })
+                    .sort({ title: 1 })
+                    .exec(callback)
+            },
+            publisher(callback) {
+                Publisher.findById(req.params.id)
+                    .exec(callback)
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.publisher == null) {
+                const error = new Error("Author not found");
+                error.status = 404;
+                return next(error);
+            }
+            res.render("general_detail", {
+                title: results.publisher.name,
+                logoURL: "../../images/amasonLogo.png",
+                itemName: "publisher",
+                books: results.books,
+            });
+        });
+}
 
 // Display publisher create form on GET.
 exports.publisher_create_get = (req, res) => {

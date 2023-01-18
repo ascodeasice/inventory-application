@@ -31,7 +31,7 @@ exports.author_detail = (req, res, next) => {
                     .exec(callback)
             },
             author(callback) {
-                author.findById(req.params.id)
+                Author.findById(req.params.id)
                     .exec(callback)
             }
         },
@@ -39,12 +39,12 @@ exports.author_detail = (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            if (author == null) {
+            if (results.author == null) {
                 const error = new Error("Author not found");
                 error.status = 404;
                 return next(error);
             }
-            res.render("general_books", {
+            res.render("general_detail", {
                 title: results.author.name,
                 logoURL: "../../images/amasonLogo.png",
                 itemName: "author",

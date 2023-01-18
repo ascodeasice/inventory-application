@@ -16,7 +16,8 @@ block content
                     p #{book.pages} Pages 
                 .infoBlock 
                     p Publisher
-                    p #{book.publisher.name}          
+                    p 
+                        a(href=book.publisher.url) #{book.publisher.name}          
                 .infoBlock 
                     p Publication Date
                     p #{book.publication_date_formatted}

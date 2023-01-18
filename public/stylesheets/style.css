@@ -18,6 +18,10 @@ a {
   color: var(--lightBlue);
   font-weight: bold;
   text-decoration: none;
+}
+
+li>a,
+a>li {
   font-size: 15px;
 }
 
@@ -39,8 +43,8 @@ a {
   background-color: #e89b00;
 }
 
-.bookListItem {
-  margin-top: 10px;
+li {
+  margin-top: 5px;
 }
 
 .bookDetailPage {
