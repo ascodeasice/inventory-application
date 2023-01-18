@@ -35,8 +35,8 @@ a>li {
   color: white;
   border: none;
   border-radius: 5px;
-  width: 80px;
-  height: 30px;
+  width: 100px;
+  height: 40px;
 }
 
 .orangeButton:hover {

@@ -1,6 +1,7 @@
 const Publisher = require("../models/publisher");
 const Book = require("../models/book");
 const async = require("async");
+const { body, validationResult } = require("express-validator");
 
 // Display list of all publishers.
 exports.publisher_list = (req, res, next) => {
@@ -39,7 +40,7 @@ exports.publisher_detail = (req, res, next) => {
                 return next(err);
             }
             if (results.publisher == null) {
-                const error = new Error("Author not found");
+                const error = new Error("Publisher not found");
                 error.status = 404;
                 return next(error);
             }
@@ -54,13 +55,56 @@ exports.publisher_detail = (req, res, next) => {
 
 // Display publisher create form on GET.
 exports.publisher_create_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: publisher create GET");
+    res.render("general_form", {
+        title: "Create publisher",
+        logoURL: "../../images/amasonLogo.png",
+    });
 };
 
 // Handle publisher create on POST.
-exports.publisher_create_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: publisher create POST");
-};
+exports.publisher_create_post = [
+    // Validation
+    body("name")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Publisher name is required"),
+
+    (req, res, next) => {
+        const errors = validationResult(req);
+
+        const newPublisher = new Publisher({ name: req.body.name });
+        if (!errors.isEmpty()) {
+            res.render("general_form", {
+                title: "Create publisher",
+                logoURL: "../../images/amasonLogo.png",
+                item: newPublisher,
+                errors: errors.array(),
+            });
+            return;
+        }
+        else {
+            Publisher.findOne({ name: req.body.name })
+                .exec((err, found_publisher) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    if (found_publisher) {
+                        // publisher is duplicated
+                        res.redirect(found_publisher.url);
+                    }
+                    else {
+                        newPublisher.save((err) => {
+                            if (err) {
+                                return next(err);
+                            }
+
+                            res.redirect(newPublisher.url);
+                        });
+                    }
+                });
+        }
+    }
+]
 
 // Display publisher delete form on GET.
 exports.publisher_delete_get = (req, res) => {

@@ -1,6 +1,7 @@
 const Category = require("../models/category");
 const Book = require("../models/book");
 const async = require("async");
+const { body, validationResult } = require("express-validator");
 
 // Display list of all categories.
 exports.category_list = (req, res, next) => {
@@ -54,13 +55,57 @@ exports.category_detail = (req, res, next) => {
 
 // Display category create form on GET.
 exports.category_create_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: category create GET");
+    res.render("general_form",
+        {
+            title: "Create category",
+            logoURL: "../../images/amasonLogo.png",
+        });
 };
 
 // Handle category create on POST.
-exports.category_create_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: category create POST");
-};
+exports.category_create_post = [
+    // Validation
+    body("name")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Category name is required"),
+
+    (req, res, next) => {
+        const errors = validationResult(req);
+
+        const newCategory = new Category({ name: req.body.name });
+        if (!errors.isEmpty()) {
+            res.render("general_form", {
+                title: "Create category",
+                logoURL: "../../images/amasonLogo.png",
+                item: newCategory,
+                errors: errors.array(),
+            });
+            return;
+        }
+        else {
+            Category.findOne({ name: req.body.name })
+                .exec((err, found_category) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    if (found_category) {
+                        // category is duplicated
+                        res.redirect(found_category.url);
+                    }
+                    else {
+                        newCategory.save((err) => {
+                            if (err) {
+                                return next(err);
+                            }
+
+                            res.redirect(newCategory.url);
+                        });
+                    }
+                });
+        }
+    }
+]
 
 // Display category delete form on GET.
 exports.category_delete_get = (req, res) => {
