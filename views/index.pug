@@ -3,5 +3,21 @@ extends layout
 block content
   p Welcome to amason, one of the online bookstore in history.
   p We will provide the best books for you
-  a(href="/catalog/books")
-    button.orangeButton Shop
+  ul.categoryList
+    li
+      a(href="/catalog/books") All books
+    li
+      a(href="/catalog/authors") All authors
+    li
+      a(href="/catalog/categories") All categories
+    li
+      a(href="/catalog/publishers") All publishers
+    br
+    li
+      a(href="/catalog/book/create") Create book
+    li
+      a(href="/catalog/author/create") Create author
+    li
+      a(href="/catalog/category/create") Create category
+    li
+      a(href="/catalog/publisher/create") Create publisher

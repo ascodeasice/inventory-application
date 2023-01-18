@@ -1,4 +1,5 @@
 :root {
+  --lightOrange: #FFF7E9;
   --orange: #ff9900;
   --lightBlue: #5F9DF7;
   --blue: #1746A2;
@@ -10,6 +11,7 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: var(--lightOrange);
 }
 
 a {
@@ -21,6 +23,7 @@ a {
 
 .mainLogo {
   width: max(300px, 30vw);
+  margin-bottom: 20px;
 }
 
 .orangeButton {
@@ -98,4 +101,12 @@ span.price {
   display: grid;
   grid-template-columns: repeat(2, min-content);
   column-gap: 10px;
+}
+
+.sidebar-nav {
+  padding-left: 0;
+}
+
+.categoryList {
+  padding-left: 10px;
 }
