@@ -1,8 +1,21 @@
 const Category = require("../models/category");
 
 // Display list of all categories.
-exports.category_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: category list");
+exports.category_list = (req, res, next) => {
+    Category.find({})
+        .sort({ name: 1 })
+        .exec(
+            (err, categories) => {
+                if (err) {
+                    return next(err);
+                }
+                res.render("general_list", {
+                    title: "All categories",
+                    logoURL: "../images/amasonLogo.png",
+                    items: categories,
+                    itemName: "category",
+                });
+            });
 };
 
 // Display detail page for a specific category.

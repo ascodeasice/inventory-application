@@ -114,3 +114,8 @@ ul {
 .noItem {
   font-size: 15px;
 }
+
+::selection {
+  color: white;
+  background: var(--lightBlue);
+}

@@ -1,8 +1,21 @@
 const Publisher = require("../models/publisher");
 
 // Display list of all publishers.
-exports.publisher_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: publisher list");
+exports.publisher_list = (req, res, next) => {
+    Publisher.find({})
+        .sort({ name: 1 })
+        .exec(
+            (err, publishers) => {
+                if (err) {
+                    return next(err);
+                }
+                res.render("general_list", {
+                    title: "All publishers",
+                    logoURL: "../images/amasonLogo.png",
+                    items: publishers,
+                    itemName: "publisher",
+                });
+            });
 };
 
 // Display detail page for a specific publisher.
