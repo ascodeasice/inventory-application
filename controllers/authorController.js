@@ -2,6 +2,7 @@ const Author = require("../models/author");
 const Book = require("../models/book")
 const async = require("async");
 const author = require("../models/author");
+const { body, validationResult } = require("express-validator");
 
 // Display list of all authors.
 exports.author_list = (req, res, next) => {
@@ -54,14 +55,58 @@ exports.author_detail = (req, res, next) => {
 };
 
 // Display author create form on GET.
-exports.author_create_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: author create GET");
+exports.author_create_get = (req, res, next) => {
+    res.render("general_form",
+        {
+            title: "Create author",
+            logoURL: "../../images/amasonLogo.png",
+        });
 };
 
 // Handle author create on POST.
-exports.author_create_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: author create POST");
-};
+exports.author_create_post = [
+    // Validation
+    body("name")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Author name is required"),
+
+    (req, res, next) => {
+        const errors = validationResult(req);
+
+        const newAuthor = new Author({ name: req.body.name });
+        if (!errors.isEmpty()) {
+            res.render("general_form", {
+                title: "Create author",
+                logoURL: "../../images/amasonLogo.png",
+                item: newAuthor,
+                errors: errors.array(),
+            });
+            return;
+        }
+        else {
+            Author.findOne({ name: req.body.name })
+                .exec((err, found_author) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    if (found_author) {
+                        // author is duplicated
+                        res.redirect(found_author.url);
+                    }
+                    else {
+                        newAuthor.save((err) => {
+                            if (err) {
+                                return next(err);
+                            }
+
+                            res.redirect(newAuthor.url);
+                        });
+                    }
+                });
+        }
+    }
+]
 
 // Display author delete form on GET.
 exports.author_delete_get = (req, res) => {
