@@ -7,7 +7,7 @@ block content
             label(for="title") Title: 
             input#title(type='text' placeholder='Book Title' name='title' required='true' value=(book==undefined?"":book.title))
             label(for="description") Description: 
-            textarea#description(placeholder="Info about the book" name="description" required='true' value=(book==undefined?"":book.description))
+            textarea#description(placeholder="Info about the book" name="description" required='true') #{book==undefined?"":book.description}
             label(for="category") Category: 
             select#category(type="select" placeholder="Select category" name="category", required=true)
                 for category in categories
@@ -41,28 +41,27 @@ block content
                     else 
                         option(value=publisher._id) #{publisher.name}
             label(for="isbn") ISBN: 
-            input#isbn(type="text" name="isbn" placeholder="ex: 0867937645" required=true)
+            input#isbn(type="text" name="isbn" placeholder="ex: 0867937645" required=true value=book==undefined?"":book.isbn)
             label(for="width") Book width:
-            input#width(type="number" name="width" min=0 value=book==undefined||book.coverSize.length<1?0:book.coverSize[0] required=true)
+            input#width(type="number" name="width" min=0 step="any"  value=book==undefined||book.coverSize.length<1?0:book.coverSize[0] required=true)
             label(for="depth") Book depth:
-            input#depth(type="number" name="depth" min=0 value=book==undefined||book.coverSize.length<2?0:book.coverSize[1] required=true)
+            input#depth(type="number" name="depth" min=0 step="any" value=book==undefined||book.coverSize.length<2?0:book.coverSize[1] required=true)
             label(for="height") Book height:
-            input#height(type="number" name="height" min=0 value=book==undefined||book.coverSize.length<3?0:book.coverSize[2] required=true)
+            input#height(type="number" name="height" min=0 step="any" value=book==undefined||book.coverSize.length<3?0:book.coverSize[2] required=true)
             label(for="author") Author:
-            select#author(type="select" placeholder="Select author" name="publisher", required=true)
+            select#author(type="select" placeholder="Select author" name="author", required=true)
                 for author in authors
-                    // handling update
                     if book 
                         // author is a string in POST, object in GET
                         option(
                         value=author._id
-                        selected=(author._id.toString()==book.author._id||author._id.toString()==book.author?
+                        selected=(author._id.toString()==book.author||author._id.toString()==book.author._id?
                         "selected":false)
                         ) #{author.name}
                     else 
                         option(value=author._id) #{author.name}
             label(for="publicationDate") Publication date:
-            input#publicationDate(type="date" value=book==undefined?"":book.publication_date_input_value required=true)
+            input#publicationDate(type="date" name="publicationDate" value=book==undefined?"":book.publication_date_input_value required=true)
 
         button.orangeButton(type="submit") Submit
     

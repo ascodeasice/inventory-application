@@ -35,7 +35,8 @@ BookSchema.virtual("dimensions_formatted").get(function () {
 
     result = ""
     for (let i = 0; i < this.coverSize.length; i++) {
-        result += String(this.coverSize[i]);
+        // round to 2 numbers after decimal
+        result += String(Math.round(this.coverSize[i] * 100) / 100);
 
         // not end of string
         if (i != this.coverSize.length - 1) {
