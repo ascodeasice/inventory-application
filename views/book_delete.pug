@@ -1,0 +1,37 @@
+extends layout 
+
+block content
+    div.bookDetailPage
+        div.bookInfo
+            h1 #{title}
+            p by 
+                a.authorName(href=book.author.url) #{book.author.name}
+            p.description #{book.description}
+            p Category: 
+                a.bold(href=book.category.url) #{book.category.name}
+            hr
+            div.bookInfoRow
+                .infoBlock 
+                    p Print length 
+                    p #{book.pages} Pages 
+                .infoBlock 
+                    p Publisher
+                    p 
+                        a(href=book.publisher.url) #{book.publisher.name}          
+                .infoBlock 
+                    p Publication Date
+                    p #{book.publication_date_formatted}
+                .infoBlock 
+                    p Dimensions 
+                    p #{book.dimensions_formatted}
+                .infoBlock 
+                    p ISBN-10
+                    p #{book.isbn}
+        div.buyBook 
+            p.bold Price: 
+                span.price $#{book.price}
+            p.bold Number in Stock: #{book.numberInStock}
+            p Are you sure you want to delete this book?
+            form(method="POST" action="")
+                input#bookId(type="hidden" name="bookId" required="true" value=book._id)
+                button.redButton(type="submit") Delete

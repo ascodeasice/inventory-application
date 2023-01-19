@@ -209,13 +209,45 @@ exports.book_create_post = [
     }
 ]
 // Display book delete form on GET.
-exports.book_delete_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: book delete GET");
+exports.book_delete_get = (req, res, next) => {
+    Book.findById(req.params.id)
+        .populate("author")
+        .populate("publisher")
+        .populate("category")
+        .exec((err, book) => {
+            if (err) {
+                return next(err);
+            }
+            if (book == null) {
+                // book not found
+                const error = new Error("Book not found");
+                error.status = 404;
+                next(error);
+            }
+            // success
+            res.render("book_delete", {
+                title: book.title,
+                logoURL: "../../../images/amasonLogo.png",
+                book: book,
+            });
+        });
 };
 
 // Handle book delete on POST.
-exports.book_delete_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: book delete POST");
+exports.book_delete_post = (req, res, next) => {
+    Book.findById(req.body.bookId).exec(
+        (err, book) => {
+            if (err) {
+                return next(err);
+            }
+            Book.findByIdAndRemove(req.body.bookId, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect("/catalog/books");
+            });
+        }
+    );
 };
 
 // Display book update form on GET.
