@@ -25,5 +25,6 @@ If you can't see it, the website is clearly a reference to Amazon.
 ## Author/Category/Publisher List
 ![](./public/images/authorList.png)
 # Link
-[Live Preview](#)
+[Live Preview](https://inventory-application-ascodeasice.up.railway.app/)
+
 Deploying on railway has a time limit, so you might not be able to see the preview
