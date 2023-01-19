@@ -143,8 +143,39 @@ exports.category_delete_get = (req, res, next) => {
 };
 
 // Handle category delete on POST.
-exports.category_delete_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: category delete POST");
+exports.category_delete_post = (req, res, next) => {
+    async.parallel(
+        {
+            category(callback) {
+                Category.findById(req.body.id).exec(callback);
+            },
+            books(callback) {
+                Book.find({ category: req.body.id }).exec(callback);
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.books.length > 0) {
+                res.render("general_delete", {
+                    title: results.category.name,
+                    logoURL: "../../../images/amasonLogo.png",
+                    itemName: "category",
+                    item: results.category,
+                    books: results.books,
+                });
+                return;
+            }
+
+            Category.findByIdAndRemove(req.body.id, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect("/catalog/categories");
+            });
+        }
+    );
 };
 
 // Display category update form on GET.

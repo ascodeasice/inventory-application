@@ -143,8 +143,39 @@ exports.author_delete_get = (req, res, next) => {
 };
 
 // Handle author delete on POST.
-exports.author_delete_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: author delete POST");
+exports.author_delete_post = (req, res, next) => {
+    async.parallel(
+        {
+            author(callback) {
+                Author.findById(req.body.id).exec(callback);
+            },
+            books(callback) {
+                Book.find({ author: req.body.id }).exec(callback);
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.books.length > 0) {
+                res.render("general_delete", {
+                    title: results.author.name,
+                    logoURL: "../../../images/amasonLogo.png",
+                    itemName: "author",
+                    item: results.author,
+                    books: results.books,
+                });
+                return;
+            }
+
+            Author.findByIdAndRemove(req.body.id, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect("/catalog/authors");
+            });
+        }
+    );
 };
 
 // Display author update form on GET.

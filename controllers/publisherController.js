@@ -142,8 +142,39 @@ exports.publisher_delete_get = (req, res, next) => {
 };
 
 // Handle publisher delete on POST.
-exports.publisher_delete_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: publisher delete POST");
+exports.publisher_delete_post = (req, res, next) => {
+    async.parallel(
+        {
+            publisher(callback) {
+                Publisher.findById(req.body.id).exec(callback);
+            },
+            books(callback) {
+                Book.find({ publisher: req.body.id }).exec(callback);
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.books.length > 0) {
+                res.render("general_delete", {
+                    title: results.publisher.name,
+                    logoURL: "../../../images/amasonLogo.png",
+                    itemName: "author",
+                    item: results.publisher,
+                    books: results.books,
+                });
+                return;
+            }
+
+            Publisher.findByIdAndRemove(req.body.id, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect("/catalog/publishers");
+            });
+        }
+    );
 };
 
 // Display publisher update form on GET.
