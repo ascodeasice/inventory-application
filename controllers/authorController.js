@@ -110,8 +110,36 @@ exports.author_create_post = [
 ]
 
 // Display author delete form on GET.
-exports.author_delete_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: author delete GET");
+exports.author_delete_get = (req, res, next) => {
+    async.parallel(
+        {
+            books(callback) {
+                Book.find({ author: req.params.id })
+                    .sort({ title: 1 })
+                    .exec(callback)
+            },
+            author(callback) {
+                Author.findById(req.params.id)
+                    .exec(callback)
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.author == null) {
+                const error = new Error("Author not found");
+                error.status = 404;
+                return next(error);
+            }
+            res.render("general_delete", {
+                title: results.author.name,
+                logoURL: "../../../images/amasonLogo.png",
+                itemName: "author",
+                books: results,
+                item: results.author,
+            });
+        });
 };
 
 // Handle author delete on POST.

@@ -109,8 +109,36 @@ exports.publisher_create_post = [
 ]
 
 // Display publisher delete form on GET.
-exports.publisher_delete_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: publisher delete GET");
+exports.publisher_delete_get = (req, res, next) => {
+    async.parallel(
+        {
+            books(callback) {
+                Book.find({ publisher: req.params.id })
+                    .sort({ title: 1 })
+                    .exec(callback)
+            },
+            publisher(callback) {
+                Publisher.findById(req.params.id)
+                    .exec(callback)
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.publisher == null) {
+                const error = new Error("Publisher not found");
+                error.status = 404;
+                return next(error);
+            }
+            res.render("general_delete", {
+                title: results.publisher.name,
+                logoURL: "../../../images/amasonLogo.png",
+                itemName: "publisher",
+                books: results.books,
+                item: results.publisher,
+            });
+        });
 };
 
 // Handle publisher delete on POST.

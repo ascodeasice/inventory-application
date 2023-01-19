@@ -104,7 +104,7 @@ span.price {
   background-color: var(--darkerRed);
 }
 
-.buyBook .buttonContainer {
+.buttonContainer {
   display: grid;
   grid-template-columns: repeat(2, min-content);
   column-gap: 10px;

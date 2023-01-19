@@ -110,8 +110,36 @@ exports.category_create_post = [
 ]
 
 // Display category delete form on GET.
-exports.category_delete_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: category delete GET");
+exports.category_delete_get = (req, res, next) => {
+    async.parallel(
+        {
+            books(callback) {
+                Book.find({ category: req.params.id })
+                    .sort({ title: 1 })
+                    .exec(callback)
+            },
+            category(callback) {
+                Category.findById(req.params.id)
+                    .exec(callback)
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.category == null) {
+                const error = new Error("Author not found");
+                error.status = 404;
+                return next(error);
+            }
+            res.render("general_delete", {
+                title: results.category.name,
+                logoURL: "../../../images/amasonLogo.png",
+                itemName: "category",
+                books: results.books,
+                item: results.category,
+            });
+        });
 };
 
 // Handle category delete on POST.

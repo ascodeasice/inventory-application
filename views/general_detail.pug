@@ -13,5 +13,8 @@ block content
             button.orangeButton Create book
     
     hr
-    a(href=item.url+"/update")
-        button.orangeButton Update #{itemName}
+    .buttonContainer
+        a(href=item.url+"/update")
+            button.orangeButton Update #{itemName}
+        a(href=item.url+"/delete")
+            button.redButton Delete #{itemName}
