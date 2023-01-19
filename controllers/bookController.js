@@ -9,7 +9,6 @@ const { body, validationResult } = require("express-validator");
 exports.index = (req, res) => {
     res.render("index", {
         title: "Amason",
-        logoURL: "./images/amasonLogo.png",
     })
 }
 
@@ -23,7 +22,6 @@ exports.book_list = (req, res, next) => {
                 }
                 res.render("book_list", {
                     title: "All books",
-                    logoURL: "../images/amasonLogo.png",
                     books: books,
                 });
             }
@@ -49,7 +47,6 @@ exports.book_detail = (req, res, next) => {
             // success
             res.render("book_detail", {
                 title: book.title,
-                logoURL: "../../images/amasonLogo.png",
                 book: book,
             });
         });
@@ -81,7 +78,6 @@ exports.book_create_get = (req, res, next) => {
 
             res.render("book_form", {
                 title: "Create book",
-                logoURL: "../../images/amasonLogo.png",
                 categories: results.categories,
                 publishers: results.publishers,
                 authors: results.authors,
@@ -186,7 +182,6 @@ exports.book_create_post = [
 
                     res.render("book_form", {
                         title: "Create book",
-                        logoURL: "../../../images/amasonLogo.png",
                         book: newBook,
                         authors: results.authors,
                         categories: results.categories,
@@ -227,7 +222,6 @@ exports.book_delete_get = (req, res, next) => {
             // success
             res.render("book_delete", {
                 title: book.title,
-                logoURL: "../../../images/amasonLogo.png",
                 book: book,
             });
         });
@@ -280,7 +274,6 @@ exports.book_update_get = (req, res, next) => {
 
             res.render("book_form", {
                 title: "Update book",
-                logoURL: "../../../images/amasonLogo.png",
                 book: results.book,
                 authors: results.authors,
                 categories: results.categories,
@@ -387,7 +380,6 @@ exports.book_update_post = [
 
                     res.render("book_form", {
                         title: "Create book",
-                        logoURL: "../../../images/amasonLogo.png",
                         book: newBook,
                         authors: results.authors,
                         categories: results.categories,

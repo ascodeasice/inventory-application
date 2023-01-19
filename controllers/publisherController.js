@@ -15,7 +15,6 @@ exports.publisher_list = (req, res, next) => {
                 }
                 res.render("general_list", {
                     title: "All publishers",
-                    logoURL: "../images/amasonLogo.png",
                     items: publishers,
                     itemName: "publisher",
                 });
@@ -47,7 +46,6 @@ exports.publisher_detail = (req, res, next) => {
             }
             res.render("general_detail", {
                 title: results.publisher.name,
-                logoURL: "../../images/amasonLogo.png",
                 itemName: "publisher",
                 books: results.books,
                 item: results.publisher,
@@ -59,7 +57,6 @@ exports.publisher_detail = (req, res, next) => {
 exports.publisher_create_get = (req, res) => {
     res.render("general_form", {
         title: "Create publisher",
-        logoURL: "../../images/amasonLogo.png",
     });
 };
 
@@ -78,7 +75,6 @@ exports.publisher_create_post = [
         if (!errors.isEmpty()) {
             res.render("general_form", {
                 title: "Create publisher",
-                logoURL: "../../images/amasonLogo.png",
                 item: newPublisher,
                 errors: errors.array(),
             });
@@ -133,7 +129,6 @@ exports.publisher_delete_get = (req, res, next) => {
             }
             res.render("general_delete", {
                 title: results.publisher.name,
-                logoURL: "../../../images/amasonLogo.png",
                 itemName: "publisher",
                 books: results.books,
                 item: results.publisher,
@@ -159,7 +154,6 @@ exports.publisher_delete_post = (req, res, next) => {
             if (results.books.length > 0) {
                 res.render("general_delete", {
                     title: results.publisher.name,
-                    logoURL: "../../../images/amasonLogo.png",
                     itemName: "author",
                     item: results.publisher,
                     books: results.books,
@@ -192,7 +186,6 @@ exports.publisher_update_get = (req, res) => {
         // success
         res.render("general_form", {
             title: "Update publisher",
-            logoURL: "../../../images/amasonLogo.png",
             item: publisher,
         });
     });
@@ -212,7 +205,6 @@ exports.publisher_update_post = [
         if (!errors.isEmpty()) {
             res.render("general_form", {
                 title: "Update publisher",
-                logoURL: "../../../images/amasonLogo.png",
                 item: newPublisher,
                 errors: errors.array(),
             });

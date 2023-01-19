@@ -15,7 +15,6 @@ exports.category_list = (req, res, next) => {
                 }
                 res.render("general_list", {
                     title: "All categories",
-                    logoURL: "../images/amasonLogo.png",
                     items: categories,
                     itemName: "category",
                 });
@@ -47,7 +46,6 @@ exports.category_detail = (req, res, next) => {
             }
             res.render("general_detail", {
                 title: results.category.name,
-                logoURL: "../../images/amasonLogo.png",
                 itemName: "category",
                 books: results.books,
                 item: results.category,
@@ -60,7 +58,6 @@ exports.category_create_get = (req, res) => {
     res.render("general_form",
         {
             title: "Create category",
-            logoURL: "../../images/amasonLogo.png",
         });
 };
 
@@ -79,7 +76,6 @@ exports.category_create_post = [
         if (!errors.isEmpty()) {
             res.render("general_form", {
                 title: "Create category",
-                logoURL: "../../images/amasonLogo.png",
                 item: newCategory,
                 errors: errors.array(),
             });
@@ -134,7 +130,6 @@ exports.category_delete_get = (req, res, next) => {
             }
             res.render("general_delete", {
                 title: results.category.name,
-                logoURL: "../../../images/amasonLogo.png",
                 itemName: "category",
                 books: results.books,
                 item: results.category,
@@ -160,7 +155,6 @@ exports.category_delete_post = (req, res, next) => {
             if (results.books.length > 0) {
                 res.render("general_delete", {
                     title: results.category.name,
-                    logoURL: "../../../images/amasonLogo.png",
                     itemName: "category",
                     item: results.category,
                     books: results.books,
@@ -193,7 +187,6 @@ exports.category_update_get = (req, res) => {
         // success
         res.render("general_form", {
             title: "Update category",
-            logoURL: "../../../images/amasonLogo.png",
             item: category,
         });
     });
@@ -213,7 +206,6 @@ exports.category_update_post = [
         if (!errors.isEmpty()) {
             res.render("general_form", {
                 title: "Update category",
-                logoURL: "../../../images/amasonLogo.png",
                 item: newCategory,
                 errors: errors.array(),
             });

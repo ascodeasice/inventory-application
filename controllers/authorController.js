@@ -15,7 +15,6 @@ exports.author_list = (req, res, next) => {
                 }
                 res.render("general_list", {
                     title: "All authors",
-                    logoURL: "../images/amasonLogo.png",
                     items: authors,
                     itemName: "author",
                 });
@@ -47,7 +46,6 @@ exports.author_detail = (req, res, next) => {
             }
             res.render("general_detail", {
                 title: results.author.name,
-                logoURL: "../../images/amasonLogo.png",
                 itemName: "author",
                 books: results.books,
                 item: results.author,
@@ -60,7 +58,6 @@ exports.author_create_get = (req, res, next) => {
     res.render("general_form",
         {
             title: "Create author",
-            logoURL: "../../images/amasonLogo.png",
         });
 };
 
@@ -79,7 +76,6 @@ exports.author_create_post = [
         if (!errors.isEmpty()) {
             res.render("general_form", {
                 title: "Create author",
-                logoURL: "../../images/amasonLogo.png",
                 item: newAuthor,
                 errors: errors.array(),
             });
@@ -134,7 +130,6 @@ exports.author_delete_get = (req, res, next) => {
             }
             res.render("general_delete", {
                 title: results.author.name,
-                logoURL: "../../../images/amasonLogo.png",
                 itemName: "author",
                 books: results,
                 item: results.author,
@@ -160,7 +155,6 @@ exports.author_delete_post = (req, res, next) => {
             if (results.books.length > 0) {
                 res.render("general_delete", {
                     title: results.author.name,
-                    logoURL: "../../../images/amasonLogo.png",
                     itemName: "author",
                     item: results.author,
                     books: results.books,
@@ -193,7 +187,6 @@ exports.author_update_get = (req, res, next) => {
         // success
         res.render("general_form", {
             title: "Update author",
-            logoURL: "../../../images/amasonLogo.png",
             item: author,
         });
     });
@@ -213,7 +206,6 @@ exports.author_update_post = [
         if (!errors.isEmpty()) {
             res.render("general_form", {
                 title: "Update author",
-                logoURL: "../../../images/amasonLogo.png",
                 item: newAuthor,
                 errors: errors.array(),
             });
