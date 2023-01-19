@@ -22,7 +22,7 @@ block content
                     else 
                         option(value=category._id) #{category.name}
             label(for="price") Price:
-            input#price(type="number" name="price" min=0 value=book==undefined?0:book.price required=true)
+            input#price(type="number" name="price" min=0 step="0.01" value=book==undefined?0:book.price required=true)
             label(for="numberInStock") Number in stock:
             input#numberInStock(type="number" name="numberInStock" min=0 value=book==undefined?0:book.numberInStock required=true)
             label(for="pages") Pages:
@@ -43,11 +43,11 @@ block content
             label(for="isbn") ISBN: 
             input#isbn(type="text" name="isbn" placeholder="ex: 0867937645" required=true value=book==undefined?"":book.isbn)
             label(for="width") Book width:
-            input#width(type="number" name="width" min=0 step="any"  value=book==undefined||book.coverSize.length<1?0:book.coverSize[0] required=true)
+            input#width(type="number" name="width" min=0 step="0.01"  value=book==undefined||book.coverSize.length<1?0:book.coverSize[0] required=true)
             label(for="depth") Book depth:
-            input#depth(type="number" name="depth" min=0 step="any" value=book==undefined||book.coverSize.length<2?0:book.coverSize[1] required=true)
+            input#depth(type="number" name="depth" min=0 step="0.01" value=book==undefined||book.coverSize.length<2?0:book.coverSize[1] required=true)
             label(for="height") Book height:
-            input#height(type="number" name="height" min=0 step="any" value=book==undefined||book.coverSize.length<3?0:book.coverSize[2] required=true)
+            input#height(type="number" name="height" min=0 step="0.01" value=book==undefined||book.coverSize.length<3?0:book.coverSize[2] required=true)
             label(for="author") Author:
             select#author(type="select" placeholder="Select author" name="author", required=true)
                 for author in authors
